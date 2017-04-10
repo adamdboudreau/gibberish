@@ -180,7 +180,7 @@ module Gibberish
       c.auth_data = h[:adata] || ""
       begin
         out = c.update(ct) + c.final();
-      rescue OpenSSL::Cipher::CipherError => e
+      rescue Exception => e
         raise DecryptionError.new(e.inspect);
       end
       return Plaintext.new(out.force_encoding('utf-8'), h[:adata])
@@ -219,7 +219,7 @@ module Gibberish
       @password = password
       @size = size
       @mode = mode
-      @cipher = OpenSSL::Cipher::Cipher.new("aes-#{size}-#{mode}")
+      @cipher = OpenSSL::Cipher.new("aes-#{size}-#{mode}")
     end
 
     def encrypt(data, opts={})
